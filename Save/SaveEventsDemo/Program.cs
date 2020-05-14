@@ -8,7 +8,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace PrintEventsDemo
+namespace SaveEventsDemo
 {
     static class Program
     {
