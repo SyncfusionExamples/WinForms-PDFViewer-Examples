@@ -34,7 +34,7 @@ namespace FindText_Regex
 
             // Pass the list of matched pattern strings as a parameter find text for getting its bounds.
             TextSearchResultCollection searchResults;
-            bool isMatchFound= loadedDocument.FindText(matchedText, out searchResults);
+            bool isMatchFound = loadedDocument.FindText(matchedText, out searchResults);
             
             // Clear all the resources.
             extractedText = string.Empty;
