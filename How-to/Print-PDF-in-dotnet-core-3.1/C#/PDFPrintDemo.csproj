@@ -9,7 +9,7 @@
   <FrameworkReference Include="Microsoft.WindowsDesktop.App" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Syncfusion.PdfViewer.Windows" Version="18.1.0.42" />
+    <PackageReference Include="Syncfusion.PdfViewer.Windows" Version="*" />
   </ItemGroup>
 
 </Project>

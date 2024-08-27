@@ -54,7 +54,7 @@ namespace SaveEventsDemo
             this.Controls.Add(this.pdfViewerControl1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
-            this.Text = "Print Events Demo";
+            this.Text = "Save Events Demo";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.ResumeLayout(false);
             this.PerformLayout();

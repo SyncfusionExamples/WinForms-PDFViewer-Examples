@@ -10,9 +10,11 @@ namespace FindText_Regex
         public Form1()
         {
             InitializeComponent();
-
-            PdfLoadedDocument loadedDocument = new PdfLoadedDocument(@"../../Data/Bank statement.pdf");
-
+#if NETCOREAPP
+            PdfLoadedDocument loadedDocument = new PdfLoadedDocument(@"../../../Data/Bank statement.pdf");
+#else
+             PdfLoadedDocument loadedDocument = new PdfLoadedDocument(@"../../Data/Bank statement.pdf");
+#endif  
             // Extract text from the PDF file to get matched texts present in the file based on regex pattern.
             string extractedText = string.Empty;
             for (int i = 0; i < loadedDocument.Pages.Count; i++)

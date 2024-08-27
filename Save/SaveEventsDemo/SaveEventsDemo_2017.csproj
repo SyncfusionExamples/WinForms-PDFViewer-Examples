@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.5">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{A5A1E584-CEA6-4894-BE64-990F4C3CFE07}</ProjectGuid>
+    <ProjectGuid>{36A0141C-5432-4960-B0AB-02FCDC1D2970}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>GettingStarted</RootNamespace>
@@ -35,10 +35,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <packageReference Include="Syncfusion.Compression.Base" version="*"/>
-    <packageReference Include="Syncfusion.Pdf.Base" version="*"/>
-    <packageReference Include="Syncfusion.PdfViewer.Windows" version="*"/>
-    <packageReference Include="Syncfusion.Shared.Base" version="*"/>
+    <packageReference Include="Syncfusion.Compression.Base" version="*" />
+    <packageReference Include="Syncfusion.Pdf.Base" version="*" />
+    <packageReference Include="Syncfusion.PdfViewer.Windows" version="*" />
+    <packageReference Include="Syncfusion.Shared.Base" version="*" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
@@ -81,7 +81,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <packageReference Include="Syncfusion.Licensing" version="*"/>
+    <packageReference Include="Syncfusion.Licensing" version="*" />
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
