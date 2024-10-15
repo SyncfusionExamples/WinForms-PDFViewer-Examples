@@ -34,11 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <packageReference Include="Syncfusion.Compression.Base" version="*" />
-    <packageReference Include="Syncfusion.Licensing" version="*" />
-    <packageReference Include="Syncfusion.Pdf.Base" version="*" />
     <packageReference Include="Syncfusion.PdfViewer.Windows" version="*" />
-    <packageReference Include="Syncfusion.Shared.Base" version="*" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
