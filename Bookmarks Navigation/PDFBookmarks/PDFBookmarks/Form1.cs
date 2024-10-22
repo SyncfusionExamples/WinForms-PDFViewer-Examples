@@ -25,7 +25,11 @@ namespace SampleWF
             pdfViewer.DocumentLoaded += PdfViewer_DocumentLoaded;
 
             // load the PDF.
+#if NETCOREAPP
+            pdfViewer.Load("../../../Data/C_Sharp_Succinctly.pdf");
+#else
             pdfViewer.Load("../../Data/C_Sharp_Succinctly.pdf");
+#endif
         }
 
         /// <summary>
