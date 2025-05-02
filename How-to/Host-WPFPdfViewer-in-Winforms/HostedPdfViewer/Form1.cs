@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.Integration;
 
-namespace Host_WPFPdfViewer_in_Winforms
+namespace HostedPdfViewer
 {
     public partial class Form1 : Form
     {

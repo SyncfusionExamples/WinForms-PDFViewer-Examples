@@ -12,8 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using UserControl = System.Windows.Controls.UserControl;
 
-namespace Host_WPFPdfViewer_in_Winforms
+namespace HostedPdfViewer
 {
     /// <summary>
     /// Interaction logic for WPFPdfViewer.xaml
@@ -34,7 +35,11 @@ namespace Host_WPFPdfViewer_in_Winforms
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             //Load a PDF file in the PDF viewer
+#if !NETCOREAPP
             filePath = "../../Data/F#.pdf";
+#else
+            filePath = "../../../Data/F#.pdf";
+#endif
             pdfViewer.Load(filePath);
         }
     }

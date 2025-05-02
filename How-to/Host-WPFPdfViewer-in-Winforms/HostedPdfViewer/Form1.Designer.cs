@@ -1,4 +1,4 @@
-﻿namespace Host_WPFPdfViewer_in_Winforms
+﻿namespace HostedPdfViewer
 {
     partial class Form1
     {

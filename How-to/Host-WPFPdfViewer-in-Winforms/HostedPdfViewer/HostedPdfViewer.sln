@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.12.35527.113 d17.12
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Host-WPFPdfViewer-in-Winforms", "Host-WPFPdfViewer-in-Winforms.csproj", "{6C45B582-45B9-4371-A4CC-628F288E2107}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HostedPdfViewer", "HostedPdfViewer.csproj", "{6C45B582-45B9-4371-A4CC-628F288E2107}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
