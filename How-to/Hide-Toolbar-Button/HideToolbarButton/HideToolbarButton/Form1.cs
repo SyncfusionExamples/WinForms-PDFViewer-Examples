@@ -20,7 +20,7 @@ namespace HideToolbarButton
             InitializeComponent();
             this.WindowState = FormWindowState.Maximized;
 
-            //Creating PdfViewer control obkect and add it to the forms
+            //Creating PdfViewer control object and add it to the forms
             pdfViewerControl = new PdfViewerControl();
             pdfViewerControl.Dock = DockStyle.Fill;
             this.Controls.Add(pdfViewerControl);

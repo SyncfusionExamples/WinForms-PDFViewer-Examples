@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.12.35707.178 d17.12
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HideToolbarButton", "HideToolbarButton\HideToolbarButton.csproj", "{9B6257CA-7B0F-47CD-9A5B-67A0D637A20E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HideToolbarButton", "HideToolbarButton.csproj", "{9B6257CA-7B0F-47CD-9A5B-67A0D637A20E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
