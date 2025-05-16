@@ -12,7 +12,7 @@
             <RowDefinition Height="30"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Button x:Name="Rectangle" Content="Rectangle" Width="60" Click="Rectangle_Click"/>
+        <Button x:Name="Rectangle" Content="Mark and Extract" Width="60" Click="Rectangle_Click"/>
         <PdfViewer:PdfViewerControl Grid.Row="1" x:Name="pdfViewer"/>
     </Grid>
 </UserControl>
