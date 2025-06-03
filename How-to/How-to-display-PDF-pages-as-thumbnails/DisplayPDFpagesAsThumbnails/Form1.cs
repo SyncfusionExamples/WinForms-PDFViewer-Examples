@@ -15,6 +15,7 @@ namespace DisplayPDFpagesAsThumbnails
     {
         string filePath;
         int thumbnailZoomfactor = 4;
+        FlowLayoutPanel thumbnailLayoutPanel;
         public Form1()
         {
             InitializeComponent();
@@ -23,39 +24,34 @@ namespace DisplayPDFpagesAsThumbnails
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            // Create a parent TableLayoutPanel with two columns and one row.
-            var parentLayout = new TableLayoutPanel
+            //Configure the existing tableLayoutPanel to two columns and one row.
+            tableLayoutPanel1.Dock = DockStyle.Fill;
+            tableLayoutPanel1.ColumnStyles.Clear();
+            tableLayoutPanel1.ColumnCount = 2;
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 16F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 84F));
+
+            tableLayoutPanel1.RowStyles.Clear();
+            tableLayoutPanel1.RowCount = 1;
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+
+            //Create a scrollable FlowlayoutPanel for the thumbnails  
+            thumbnailLayoutPanel = new FlowLayoutPanel
             {
                 Dock = DockStyle.Fill,
-                ColumnCount = 2,
-                RowCount = 1
+                AutoScroll = true,
+                FlowDirection = FlowDirection.TopDown,
+                WrapContents = false,
             };
-            parentLayout.ColumnStyles.Clear();
-            //Create rows and columns with specific size to view the thumbnail images and pdfviewer effectively
-            parentLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 16F));
-            parentLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 84F));
-            parentLayout.RowStyles.Clear();
-            parentLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
 
-            //Remove the existing controls from the Form, so that we can re‐insert them into our new parentLayout.
-            this.Controls.Remove(tableLayoutPanel1);
+            //Add the thumbnailLayout to the first column of the tableLayoutPanel
+            tableLayoutPanel1.Controls.Add(thumbnailLayoutPanel, 0, 0);
+
+            //Remove the existing pdfViewercontrol from the form, so that we can newly insert everytime into the tableLayoutPanel.
             this.Controls.Remove(pdfViewerControl1);
-
-            //Prepare tableLayoutPanel1 to Auto‐size vertically. 
-            tableLayoutPanel1.AutoSize = true;
-            //Set Dock style of tableLayoutPane to Top to grow downward as thumbnail images are added.
-            tableLayoutPanel1.Dock = DockStyle.Top;
-
-            //Create a scrollable Panel, and put tableLayoutPanel1 inside it.
-            var thumbnailScrollHost = new Panel
-            {
-                Dock = DockStyle.Fill,
-                AutoScroll = true
-            };
-            thumbnailScrollHost.Controls.Add(tableLayoutPanel1);
-
-            // Configure pdfViewerControl to dock Fill.
+            //Add the pdfViewer to the second column of the tableLayoutPanel 
             pdfViewerControl1.Dock = DockStyle.Fill;
+            tableLayoutPanel1.Controls.Add(pdfViewerControl1, 1, 0);
             // Load the PDF file.
 #if NETCOREAPP
             filePath = @"../../../Data/PDF_Succinctly.pdf";
@@ -64,13 +60,6 @@ namespace DisplayPDFpagesAsThumbnails
 #endif
             pdfViewerControl1.Load(filePath);
             pdfViewerControl1.DocumentLoaded += PdfViewerControl1_DocumentLoaded;
-
-            // Add both the scroll host and the PDF viewer into parentLayout
-            parentLayout.Controls.Add(thumbnailScrollHost, 0, 0);
-            parentLayout.Controls.Add(pdfViewerControl1, 1, 0);
-
-            // Finally, add parentLayout to the form.
-            this.Controls.Add(parentLayout);
             this.WindowState = FormWindowState.Maximized;
         }
 
@@ -79,9 +68,7 @@ namespace DisplayPDFpagesAsThumbnails
         /// </summary>
         private void PdfViewerControl1_DocumentLoaded(object sender, EventArgs args)
         {
-            tableLayoutPanel1.Controls.Clear();
-            tableLayoutPanel1.RowStyles.Clear();
-            tableLayoutPanel1.RowCount = 0;
+            thumbnailLayoutPanel.Controls.Clear();
             ExportAsImage();
         }
 
@@ -90,10 +77,7 @@ namespace DisplayPDFpagesAsThumbnails
         /// </summary>
         private async void ExportAsImage()
         {
-            int count = pdfViewerControl1.LoadedDocument.Pages.Count;
-            tableLayoutPanel1.ColumnCount = 1;
-            tableLayoutPanel1.RowCount = count;
-            //Calculate height and width for teh thumbnail panel
+            //Calculate height and width for the thumbnail panel
             float height = pdfViewerControl1.LoadedDocument.Pages[0].Size.Height / thumbnailZoomfactor;
             float width = pdfViewerControl1.LoadedDocument.Pages[0].Size.Width / thumbnailZoomfactor;
             this.tableLayoutPanel1.ColumnStyles[0].SizeType = SizeType.Absolute;
@@ -116,11 +100,10 @@ namespace DisplayPDFpagesAsThumbnails
                     picture.Height = (int)height;
                     picture.Width = (int)width;
                     picture.Visible = true;
-                    picture.Margin = new Padding(25, 5, 10, 0);
                     picture.Refresh();
                     picture.MouseUp += Picture_MouseUp;
-                    //Add the picture control to the tablelayoutpanel
-                    tableLayoutPanel1.Controls.Add(picture, 0, i);
+                    //Add the picture control to the thumbnailPanel
+                    thumbnailLayoutPanel.Controls.Add(picture);
                 }
         }
 
@@ -133,7 +116,7 @@ namespace DisplayPDFpagesAsThumbnails
         {
             PictureBox pictureBox = (PictureBox)sender;
             //Get the index of the page
-            int index = tableLayoutPanel1.GetRow(pictureBox);
+            int index = thumbnailLayoutPanel.Controls.IndexOf(pictureBox);
             //Navigate to the specified page
             pdfViewerControl1.GoToPageAtIndex(index + 1);
 
