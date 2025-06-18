@@ -15,7 +15,9 @@ namespace DisplayPDFpagesAsThumbnails
     {
         string filePath;
         int thumbnailZoomfactor = 4;
+        TableLayoutPanel tableLayoutPanel;
         FlowLayoutPanel thumbnailLayoutPanel;
+        PdfViewerControl pdfViewerControl;
         public Form1()
         {
             InitializeComponent();
@@ -24,18 +26,19 @@ namespace DisplayPDFpagesAsThumbnails
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            //Configure the existing tableLayoutPanel to two columns and one row.
-            tableLayoutPanel1.Dock = DockStyle.Fill;
-            tableLayoutPanel1.ColumnStyles.Clear();
-            tableLayoutPanel1.ColumnCount = 2;
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 16F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 84F));
+            //Initialize a new TableLayoutPanel and configure the tableLayoutPanel to hold two column and one row
+            tableLayoutPanel = new TableLayoutPanel();
+            tableLayoutPanel.Dock = DockStyle.Fill;
+            tableLayoutPanel.ColumnStyles.Clear();
+            tableLayoutPanel.ColumnCount = 2;
+            tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 16F));
+            tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 84F));
 
-            tableLayoutPanel1.RowStyles.Clear();
-            tableLayoutPanel1.RowCount = 1;
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel.RowStyles.Clear();
+            tableLayoutPanel.RowCount = 1;
+            tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
 
-            //Create a scrollable FlowlayoutPanel for the thumbnails  
+            //Create a Scrolllable layout panel for the thumbnail images
             thumbnailLayoutPanel = new FlowLayoutPanel
             {
                 Dock = DockStyle.Fill,
@@ -45,28 +48,28 @@ namespace DisplayPDFpagesAsThumbnails
             };
 
             //Add the thumbnailLayout to the first column of the tableLayoutPanel
-            tableLayoutPanel1.Controls.Add(thumbnailLayoutPanel, 0, 0);
+            tableLayoutPanel.Controls.Add(thumbnailLayoutPanel,0,0);
 
-            //Remove the existing pdfViewercontrol from the form, so that we can newly insert everytime into the tableLayoutPanel.
-            this.Controls.Remove(pdfViewerControl1);
+            pdfViewerControl = new PdfViewerControl();
+            pdfViewerControl.Dock = DockStyle.Fill;
             //Add the pdfViewer to the second column of the tableLayoutPanel 
-            pdfViewerControl1.Dock = DockStyle.Fill;
-            tableLayoutPanel1.Controls.Add(pdfViewerControl1, 1, 0);
-            // Load the PDF file.
+            tableLayoutPanel.Controls.Add(pdfViewerControl,1,0);
 #if NETCOREAPP
             filePath = @"../../../Data/PDF_Succinctly.pdf";
 #else
             filePath = @"../../Data/PDF_Succinctly.pdf";
 #endif
-            pdfViewerControl1.Load(filePath);
-            pdfViewerControl1.DocumentLoaded += PdfViewerControl1_DocumentLoaded;
+            // Load the PDF file.
+            pdfViewerControl.Load(filePath);
+            pdfViewerControl.DocumentLoaded += PdfViewerControl_DocumentLoaded;
+            this.Controls.Add(tableLayoutPanel);
             this.WindowState = FormWindowState.Maximized;
         }
 
         /// <summary>
-        /// Event triggers once the document has been loaded
+        /// Triggers once the document is loaded it invoke the conversion of pdf page to image 
         /// </summary>
-        private void PdfViewerControl1_DocumentLoaded(object sender, EventArgs args)
+        private void PdfViewerControl_DocumentLoaded(object sender, EventArgs args)
         {
             thumbnailLayoutPanel.Controls.Clear();
             ExportAsImage();
@@ -77,23 +80,23 @@ namespace DisplayPDFpagesAsThumbnails
         /// </summary>
         private async void ExportAsImage()
         {
-            //Calculate height and width for the thumbnail panel
-            float height = pdfViewerControl1.LoadedDocument.Pages[0].Size.Height / thumbnailZoomfactor;
-            float width = pdfViewerControl1.LoadedDocument.Pages[0].Size.Width / thumbnailZoomfactor;
-            this.tableLayoutPanel1.ColumnStyles[0].SizeType = SizeType.Absolute;
-            if(pdfViewerControl1.LoadedDocument.Pages.Count > 4)
+            //Calculate height and width of the panel
+            float height = pdfViewerControl.LoadedDocument.Pages[0].Size.Height / thumbnailZoomfactor;
+            float width = pdfViewerControl.LoadedDocument.Pages[0].Size.Width / thumbnailZoomfactor;
+            this.tableLayoutPanel.ColumnStyles[0].SizeType = SizeType.Absolute;
+            if (pdfViewerControl.LoadedDocument.Pages.Count > 4)
             {
-                this.tableLayoutPanel1.ColumnStyles[0].Width = width + 30;
+                this.tableLayoutPanel.ColumnStyles[0].Width = width + 30;
             }
             else
             {
-                this.tableLayoutPanel1.ColumnStyles[0].Width = width + 5;
+                this.tableLayoutPanel.ColumnStyles[0].Width = width + 5;
             }
-                for (int i = 0; i < pdfViewerControl1.LoadedDocument.Pages.Count; i++)
+                for (int i = 0; i < pdfViewerControl.LoadedDocument.Pages.Count; i++)
                 {
                     PictureBox picture = new PictureBox();
                     //Convert the PDF page as image
-                    Bitmap image = new Bitmap(await Task.Run(() => pdfViewerControl1.LoadedDocument.ExportAsImage(i)), new Size((int)width, (int)height));
+                    Bitmap image = new Bitmap(await Task.Run(() => pdfViewerControl.LoadedDocument.ExportAsImage(i)), new Size((int)width, (int)height));
                     //Set the exported image to the picture control
                     picture.Image = image;
                     picture.Update();
@@ -108,18 +111,15 @@ namespace DisplayPDFpagesAsThumbnails
         }
 
         /// <summary>
-        /// Event triggered once clicked the thumbnail images
+        /// Triggered whenever the thumbnail images is clicked
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void Picture_MouseUp(object sender, MouseEventArgs e)
         {
             PictureBox pictureBox = (PictureBox)sender;
             //Get the index of the page
             int index = thumbnailLayoutPanel.Controls.IndexOf(pictureBox);
             //Navigate to the specified page
-            pdfViewerControl1.GoToPageAtIndex(index + 1);
-
+            pdfViewerControl.GoToPageAtIndex(index + 1);
         }
     }
 }
