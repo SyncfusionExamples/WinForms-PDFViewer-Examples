@@ -5,6 +5,7 @@ namespace ViewPDFInWinforms
 {
     public partial class Form1 : Form
     {
+        string filePath;
         public Form1()
         {
             InitializeComponent();
@@ -17,7 +18,12 @@ namespace ViewPDFInWinforms
             //Docking the control to all edges of its containing control and sizing appropriately.
             pdfViewerControl1.Dock = DockStyle.Fill;
             //Loading the document in the PdfViewerControl
-            pdfViewerControl1.Load(@"../../../Data/PDF_Succinctly.pdf");
+#if NETCOREAPP
+            filePath = @"../../../Data/PDF_Succinctly.pdf";
+#else
+            filePath = @"../../Data/PDF_Succinctly.pdf";
+#endif
+            pdfViewerControl1.Load(filePath);
         }
     }
 }
