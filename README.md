@@ -4,14 +4,14 @@ This repository contains various example projects of WinForms PDF Viewer control
 In WinForms applications, the [WinForms PDF Viewer](https://www.syncfusion.com/winforms-ui-controls/pdf-viewer?utm_source=github&utm_medium=listing&utm_campaign=winforms-pdf-viewer-github-samples) control allows you to view and print PDF files. The inclusion of hyperlinks and a table of contents allows for easy navigation both within and outside of PDF files.
 
 ## Requirements to run the Examples
-*Operating System: Windows 11 or Windows 10 (version 1809, build 17763 or later).
-*Development Environment: Visual Studio 2022 or later.
+* Operating System: Windows 11 or Windows 10 (version 1809, build 17763 or later).
+* Development Environment: Visual Studio 2022 or later.
 
 ## How to run the Examples
-*Clone the repository to your local machine.
-*Open the desired sample solution (.sln) file in Visual Studio.
-*Restore the required NuGet packages automatically through Visual Studio.
-*Build and run the selected sample project to explore its functionality.
+* Clone the repository to your local machine.
+* Open the desired sample solution (.sln) file in Visual Studio.
+* Restore the required NuGet packages automatically through Visual Studio.
+* Build and run the selected sample project to explore its functionality.
 
 ## Features and Benefits:
 * High performance: instant loading, less runtime memory use, virtualized pages.
