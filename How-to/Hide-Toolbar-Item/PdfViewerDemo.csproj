@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>   
+    <AssemblyName>GettingStarted_2005</AssemblyName>
+    <RootNamespace>GettingStarted</RootNamespace>
+    <DefineConstants>NETCORE</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Syncfusion.PdfViewer.Windows" Version="*" />
+    <PackageReference Include="Syncfusion.Tools.Windows" Version="*" />
+  </ItemGroup>
+   <Import Project="targets\MultiTargeting.targets" />
+</Project>
