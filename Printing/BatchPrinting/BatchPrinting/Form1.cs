@@ -4,41 +4,91 @@ namespace BatchPrinting
 {
     public partial class Form1 : Form
     {
-
-        private System.Windows.Forms.Timer batchTimer;
         private string pdfFolder = @"../../../Data";
-        private int intervalMinutes = 2;
+        PdfViewerControl viewer;
+
+        private string[] files = [];
+        private int currentIndex = 0;
+
         public Form1()
         {
             InitializeComponent();
-            InitializeBatchProcess();
-        }
 
-        private void InitializeBatchProcess()
-        {
-            batchTimer = new System.Windows.Forms.Timer();
-            batchTimer.Interval = intervalMinutes * 60 * 1000; // Convert minutes to ms
-            batchTimer.Tick += BatchTimer_Tick;
-            batchTimer.Start();
-        }
-        private async void BatchTimer_Tick(object sender, EventArgs e)
-        {
-            batchTimer.Stop(); 
-            await Task.Run(() => PrintAllPdfFiles());
-            batchTimer.Start();
-        }
-        private void PrintAllPdfFiles()
-        {
-            if (!Directory.Exists(pdfFolder))
-                return;
+            viewer = new PdfViewerControl();
+            viewer.EndPrint += Viewer_EndPrint;
 
-            var files = Directory.GetFiles(pdfFolder, "*.pdf");
-            PdfViewerControl viewer = new PdfViewerControl();
-            foreach (string file in files)
+            this.Shown += Form1_Shown;
+        }
+        private void Form1_Shown(object? sender, EventArgs e)
+        {
+            LoadFilesAndStartPrinting();
+        }
+        private void LoadFilesAndStartPrinting()
+        {
+            try
             {
+                if (!Directory.Exists(pdfFolder))
+                {
+                    return;
+                }
+
+                files = Directory
+                    .GetFiles(pdfFolder, "*.pdf")
+                    .ToArray();
+
+                if (files.Length == 0)
+                {
+                    return;
+                }
+
+                currentIndex = 0;
+                PrintCurrentFile();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    $"Failed to load PDF files.\n\n{ex.Message}",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+        }
+
+        private void PrintCurrentFile()
+        {
+            if (currentIndex >= files.Length)
+            {
+                MessageBox.Show(
+                    "Batch printing completed.",
+                    "Completed",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
+                return;
+            }
+
+            try
+            {
+                string file = files[currentIndex];
+
                 viewer.Load(file);
                 viewer.Print(false);
             }
+            catch (Exception ex)
+            {
+                // Log error and continue with next file
+                MessageBox.Show(
+                    $"Failed to print:\n{files[currentIndex]}\n\n{ex.Message}",
+                    "Print Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+            }
+        }
+
+        private void Viewer_EndPrint(object? sender, EndPrintEventArgs e)
+        {
+            currentIndex++;
+            BeginInvoke(PrintCurrentFile);
         }
     }
 }
